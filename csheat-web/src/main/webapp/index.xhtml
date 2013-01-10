@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./templates/csheatTemplate.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <p:growl id="msg" showDetail="true" escape="false" />
+
+
+                    <h3>Cheatsheet Configuration</h3>
+                    <p:pickList id="pojoPickList" value="#{cheatsPickListBean.cheats}" var="cheat"
+                                itemValue="#{cheat}" itemLabel="#{cheat.app.name}"
+                                converter="#{cheatConverter}"
+                                showSourceControls="true" showTargetControls="true"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" >
+
+                        <f:facet name="sourceCaption">Available Cheats</f:facet>
+                        <f:facet name="targetCaption">Cheatsheet Selection</f:facet>
+
+                        <p:ajax event="transfer" listener="#{cheatsPickListBean.onTransfer}" update="msg" />
+
+                        <p:column style="width:10%;">
+                            #{cheat.app.name}
+                        </p:column>
+
+                        <p:column style="width:70%;">
+                            #{cheat.version.purpose}
+                        </p:column>
+
+                        <p:column style="width:20%;">
+                            <p:selectOneMenu value="#{cheat.version}" var="selectedVersion" converter="#{cheatVersionConverter}">
+                                <f:selectItems value="#{cheat.versions}" var="version" itemLabel="#{version.description}" itemValue="#{version}"/>
+                                <p:column>
+                                    #{selectedVersion.description}
+                                </p:column>
+                            </p:selectOneMenu>
+                        </p:column>
+
+                    </p:pickList>
+
+                    <p:commandButton id="submit" value="Submit" update="displayCheats" oncomplete="cheatDialog.show()" style="margin-top:5px"/>
+
+                    <p:commandButton id="cancel" value="Cancel" actionListener="#{cheatsPickListBean.onLoad}" style="margin-top:5px"/>
+
+                    <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="cheatDialog">
+                        <h:panelGrid id="displayCheats" columns="2">
+                            <h:outputText value="Source: " style="font-weight:bold"/>
+                            <ui:repeat value="#{cheatsPickListBean.cheats.source}" var="cheat">
+                                <h:outputText value="#{cheat.version.purpose}" style="margin-right:5px" />
+                            </ui:repeat>
+
+                            <h:outputText value="Target: " style="font-weight:bold"/>
+                            <ui:repeat value="#{cheatsPickListBean.cheats.target}" var="cheat">
+                                <h:outputText value="#{cheat.version.purpose}" style="margin-right:5px" />
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </p:dialog>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="csheatPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>de.gandev.csheat.entity.App</class>
+        <class>de.gandev.csheat.entity.OS</class>
+        <class>de.gandev.csheat.entity.Cheat</class>
+        <class>de.gandev.csheat.entity.CheatSheet</class>
+        <class>de.gandev.csheat.entity.Version</class>
+        <class>de.gandev.csheat.entity.AppVersion</class>
+        <class>de.gandev.csheat.entity.CheatVersion</class>
+        <class>de.gandev.csheat.entity.CheatSheetVersion</class>
+        <class>de.gandev.csheat.entity.OSVersion</class>
+        <class>de.gandev.csheat.entity.CheatSheetFormat</class>
+        <validation-mode>NONE</validation-mode>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/csheat?zeroDateTimeBehavior=convertToNull"/>
+            <property name="javax.persistence.jdbc.password" value="12qwertz.-"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="eclipselink.canonicalmodel.subpackage" value="one"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="csheatGlassfishPU" transaction-type="JTA">
+        <jta-data-source>jdbc/csheat</jta-data-source>
+        <class>de.gandev.csheat.entity.App</class>
+        <class>de.gandev.csheat.entity.Cheat</class>
+        <class>de.gandev.csheat.entity.CheatSheet</class>
+        <class>de.gandev.csheat.entity.CheatSheetFormat</class>
+        <class>de.gandev.csheat.entity.CheatVersion</class>
+        <class>de.gandev.csheat.entity.OS</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.canonicalmodel.subpackage" value="two"/>
+        </properties>
+    </persistence-unit>
+</persistence>
